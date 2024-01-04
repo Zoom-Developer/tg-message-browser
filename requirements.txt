@@ -1,0 +1,6 @@
+Telethon==1.32.1
+Pillow==9.5.0
+requests==2.28.2
+numpy==1.24.2
+dearpygui==1.10.1
+cryptg==0.4.0
