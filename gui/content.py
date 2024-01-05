@@ -74,22 +74,22 @@ class Content(BaseItem):
                 dpg.bind_item_theme(self.contextItem, self.app.theme.transparentButton)
                 break
 
-    def changeDialog(self, dialog: entities.Dialog):
+    async def changeDialog(self, dialog: entities.Dialog):
 
         self.dialog = dialog
         self.dialogs_messages.setdefault(self.dialog.id, 50)
-        self.app.createTask(self.loadMessages(), True)
+        await self.loadMessages()
 
-    def loadMore(self):
+    async def loadMore(self):
 
         self.dialogs_messages[self.dialog.id] += 50
-        self.app.createTask(self.loadMessages(), True)
+        await self.loadMessages()
 
-    def resetDialog(self):
+    async def resetDialog(self):
 
         del self.dialogs_messages[self.dialog.id]
         self.dialog.messages.clear()
-        self.changeDialog(self.dialog)
+        await self.changeDialog(self.dialog)
 
     async def loadMessages(self):
 
@@ -127,7 +127,7 @@ class Messageable(NoDrawItem):
 
         if (self.message.reply_to or self.message.fwd_from) and not already_forward:
             self.reply = ReplyMessage(
-                self.app, 
+                self.app,
                 await self.message.getReply() if self.message.reply_to else self.message
             )
             self.app.contentItem.message_items.append(self.reply)

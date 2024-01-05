@@ -22,7 +22,9 @@ class Message:
         return self.timestamp.astimezone().strftime('%d.%m.%Y %H:%M:%S')
 
     async def getReply(self) -> "Message":
-        return Message(self.tg, self.dialog, await self.tg.client.get_messages(self.dialog, ids=self.reply_to))
+        entity = await self.tg.client.get_messages(self.dialog, ids=self.reply_to)
+        if not entity: return entities.UndefinedMessage()
+        return Message(self.tg, self.dialog, entity)
 
     async def getForwardUser(self) -> "entities.User":
         return await self.tg.getEntity(self.fwd_from)

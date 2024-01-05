@@ -32,8 +32,8 @@ class Dialog(BaseItem):
 
         super().__init__(app, **kwargs)
 
-    def selectDialog(self, sender, appdata, dialog: tg.Dialog):
-        self.app.contentItem.changeDialog(dialog)
+    async def selectDialog(self, sender, appdata, dialog: tg.Dialog):
+        await self.app.contentItem.changeDialog(dialog)
 
     def draw(self):
 
